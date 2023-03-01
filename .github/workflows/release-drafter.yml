@@ -20,7 +20,7 @@ jobs:
           approvers: ${{ steps.get_data.outputs.approvers }}
           minimum-approvals: 1
           issue-title: 'Release opensearch-dsl-py'
-          issue-body: "Please approve or deny the release of opensearch-dsl-py. Tag:${{GITHUB_REF_NAME}} Commit: ${{GITHUB_SHA}}"
+          issue-body: "Please approve or deny the release of opensearch-dsl-py. Tag:${{env.GITHUB_REF_NAME}} Commit: ${{env.GITHUB_SHA}}"
           exclude-workflow-initiator-as-approver: true
       - name: Set up Python 3
         uses: actions/setup-python@v3
