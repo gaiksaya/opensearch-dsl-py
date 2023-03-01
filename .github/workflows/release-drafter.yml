@@ -2,7 +2,8 @@ name: Release drafter
 
 on:
   push:
-    branches: '2pr'
+    tags:
+      - '*'
 
 jobs:
   lint:
@@ -13,14 +14,15 @@ jobs:
       - id: get_data
         run: |
           echo "approvers=$(cat .github/CODEOWNERS | grep @ | tr -d '* ' | sed 's/@/,/g' | sed 's/,//1')" >> $GITHUB_OUTPUT
-          echo "${{ github.ref_name }} Commit: ${{ github.sha }}"
       - uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
           approvers: ${{ steps.get_data.outputs.approvers }}
           minimum-approvals: 1
           issue-title: 'Release opensearch-dsl-py'
-          issue-body: "Please approve or deny the release of opensearch-dsl-py. Tag:${{env.GITHUB_REF_NAME}} Commit: ${{env.GITHUB_SHA}}"
+          issue-body: "Please approve or deny the release of opensearch-dsl-py. 
+            Tag:${{ github.ref_name }} 
+            Commit: ${{ github.sha }}"
           # exclude-workflow-initiator-as-approver: true
       - name: Set up Python 3
         uses: actions/setup-python@v3
